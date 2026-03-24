@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://refhub.io/og-image.png" alt="refhub banner" width="100%" />
+
 # refhub
 
 ### structured research memory for humans, tools, and agents
