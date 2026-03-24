@@ -1,6 +1,17 @@
+<div align="center">
+
 # refhub
 
-> structured research memory for humans, tools, and agents.
+### structured research memory for humans, tools, and agents
+
+![frontend](https://img.shields.io/badge/frontend-refhub.io-7c3aed?style=for-the-badge)
+![backend](https://img.shields.io/badge/backend-.netlify-22c55e?style=for-the-badge)
+![integration](https://img.shields.io/badge/integration-refhub--skill-ec4899?style=for-the-badge)
+![status](https://img.shields.io/badge/status-building-06b6d4?style=for-the-badge)
+
+</div>
+
+---
 
 refhub is being built as a **reference manager + knowledge substrate** for serious research workflows.
 it is not just a prettier paper list.
@@ -10,20 +21,20 @@ it is meant to support:
 - tagging and structuring research collections
 - building relation graphs between papers and ideas
 - exporting and syncing cleanly
-- powering automation, agents, and future MCP / CLI workflows
+- powering automation, agents, and future cli / mcp workflows
 
 our bias is toward **explicit structure, usable interfaces, and APIs that are safe for automation**.
 
 ---
 
-## // what we are building
+## ✦ what we are building
 
 refhub is evolving into a small system, not a single repo.
 
 ### today
 - a frontend for working with vaults, publications, tags, and profiles
-- a backend/API layer for external integrations and API-key workflows
-- supporting docs and specs for future skill / CLI / agent workflows
+- a backend/api layer for external integrations and api-key workflows
+- supporting docs and specs for future skill / cli / agent workflows
 
 ### direction
 we want refhub to become a solid foundation for:
@@ -36,41 +47,19 @@ in plain english: **something you can use directly in the browser, but also plug
 
 ---
 
-## // organization shape
+## ⚙ organization shape
 
 the org is split by responsibility, not by accident.
 
-### `refhub-io/refhub.io`
-frontend app.
-
-focus:
-- product ui
-- vault browsing and editing
-- profile/settings flows
-- api-key management ui
-- search, filtering, and research workflow ergonomics
-
-### `refhub-io/.netlify`
-serverless backend / api surface.
-
-focus:
-- versioned `/api/v1` routes
-- api key auth
-- scoped access and vault restrictions
-- import/export and data operations
-- backend hardening, auditability, and integration safety
-
-### `refhub-io/refhub-skill` *(in progress)*
-agent-facing integration layer.
-
-focus:
-- translate backend capabilities into agent/tool workflows
-- keep api → skill → cli/mcp aligned in that order
-- avoid inventing magical features not backed by the real api
+| repo | role | focus |
+|---|---|---|
+| `refhub-io/refhub.io` | frontend product | vault browsing, editing, profile/settings, api-key management ui, search, workflow ergonomics |
+| `refhub-io/.netlify` | backend api | versioned `/api/v1`, key auth, scoped access, import/export, backend hardening |
+| `refhub-io/refhub-skill` | integration layer | skill workflows, api alignment, future cli / mcp path |
 
 ---
 
-## // engineering stance
+## ⟡ engineering stance
 
 we care about a few things quite a lot:
 
@@ -99,7 +88,7 @@ but the shape should support a credible v2 instead of painting us into a corner.
 
 ---
 
-## // current repo map
+## ⇢ current repo map
 
 ```text
 refhub-io/
@@ -110,7 +99,11 @@ refhub-io/
 
 ---
 
-## // near-term goals
+## ◇ near-term goals
+
+<table>
+<tr>
+<td valign="top" width="33%">
 
 ### backend
 - strengthen api key management
@@ -119,19 +112,30 @@ refhub-io/
 - make tags / relations more first-class
 - improve search, import, export, and sync surfaces
 
+</td>
+<td valign="top" width="33%">
+
 ### frontend
 - make api-key management understandable and safe
 - improve mobile responsiveness and settings ergonomics
 - expose permission shape clearly
 - support richer vault / tag / relation workflows
 
+</td>
+<td valign="top" width="33%">
+
 ### platform direction
 - support agentic workflows without making the api sloppy
 - keep the contract explicit enough for skill / cli / mcp layers later
+- preserve a clean boundary between auth, data, and automation
+
+</td>
+</tr>
+</table>
 
 ---
 
-## // design sensibility
+## ✺ design sensibility
 
 refhub is for researchers and builders who are comfortable with dense interfaces, keyboards, and actual structure.
 
@@ -146,7 +150,7 @@ if something feels vague, ornamental, or overexplained, it is probably wrong.
 
 ---
 
-## // contributing
+## ☰ contributing
 
 if you are contributing, keep the split clean:
 
@@ -163,7 +167,7 @@ good contributions usually make one of these better:
 
 ---
 
-## // roadmap
+## ↗ roadmap
 
 v2 planning now exists in both main repos:
 
@@ -181,8 +185,12 @@ those documents outline the next serious layer:
 
 ---
 
-## // principle
+<div align="center">
+
+## principle
 
 **refhub should be pleasant for humans, legible for developers, and safe for agents.**
 
 that is the bar.
+
+</div>
