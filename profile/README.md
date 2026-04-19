@@ -1,23 +1,21 @@
 <div align="center">
 
-<img src="https://refhub.io/og-image.png" alt="refhub banner" width="100%" />
+<img src="https://refhub.io/og-image.png" alt="refhub" width="100%" />
 
 # refhub
 
-### structured research memory for humans, tools, and agents
+> // structured_research_memory for humans, tools, and agents
 
 ![frontend](https://img.shields.io/badge/frontend-refhub.io-7c3aed?style=for-the-badge)
 ![backend](https://img.shields.io/badge/backend-.netlify-22c55e?style=for-the-badge)
-![integration](https://img.shields.io/badge/integration-refhub--skill-ec4899?style=for-the-badge)
+![skill](https://img.shields.io/badge/skill-refhub--skill-ec4899?style=for-the-badge)
 ![status](https://img.shields.io/badge/status-building-06b6d4?style=for-the-badge)
 
 </div>
 
 ---
 
-refhub is being built as a **reference manager + knowledge substrate** for serious research workflows.
-it is not just a prettier paper list.
-it is meant to support:
+refhub is being built as a **reference manager + knowledge substrate** for serious research workflows. it is not just a prettier paper list. it is meant to support:
 
 - organizing publications into vaults
 - tagging and structuring research collections
@@ -25,18 +23,19 @@ it is meant to support:
 - exporting and syncing cleanly
 - powering automation, agents, and future cli / mcp workflows
 
-our bias is toward **explicit structure, usable interfaces, and APIs that are safe for automation**.
+our bias is toward **explicit structure, usable interfaces, and apis that are safe for automation**.
 
 ---
 
-## ✦ what we are building
+## // what we are building
 
 refhub is evolving into a small system, not a single repo.
 
 ### today
 - a frontend for working with vaults, publications, tags, and profiles
 - a backend/api layer for external integrations and api-key workflows
-- supporting docs and specs for future skill / cli / agent workflows
+- a browser extension for saving papers from any tab
+- agent skills and integration layer for claude code, gemini cli, opencode, codex, cursor, windsurf
 
 ### direction
 we want refhub to become a solid foundation for:
@@ -49,7 +48,7 @@ in plain english: **something you can use directly in the browser, but also plug
 
 ---
 
-## ⚙ organization shape
+## // organization shape
 
 the org is split by responsibility, not by accident.
 
@@ -57,11 +56,46 @@ the org is split by responsibility, not by accident.
 |---|---|---|
 | `refhub-io/refhub.io` | frontend product | vault browsing, editing, profile/settings, api-key management ui, search, workflow ergonomics |
 | `refhub-io/.netlify` | backend api | versioned `/api/v1`, key auth, scoped access, import/export, backend hardening |
-| `refhub-io/refhub-skill` | integration layer | skill workflows, api alignment, future cli / mcp path |
+| `refhub-io/refhub-extensions` | browser extension | save papers from any tab — chrome + firefox, mv3, shared source tree |
+| `refhub-io/refhub-skill` | integration layer | agent skill for the full v2 api surface — claude code, gemini cli, opencode, codex, cursor, windsurf |
+| `refhub-io/refhub-cli` | cli | command-line client for the refhub api — used by agents and humans alike |
+| `refhub-io/refhub-marketplace` | plugin registry | claude code marketplace for first-party refhub plugins |
 
 ---
 
-## ⟡ engineering stance
+## // agent support
+
+install the refhub skill once — works across tools.
+
+**claude code**
+```sh
+claude plugin marketplace add refhub-io/refhub-marketplace
+claude plugin install refhub-skill@refhub-marketplace
+```
+
+**gemini cli · opencode · codex cli**
+```sh
+# gemini
+mkdir -p ~/.gemini/skills/refhub-skill && curl -o ~/.gemini/skills/refhub-skill/SKILL.md \
+  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/SKILL.md
+
+# opencode
+mkdir -p ~/.config/opencode/skills/refhub-skill && curl -o ~/.config/opencode/skills/refhub-skill/SKILL.md \
+  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/SKILL.md
+
+# codex
+mkdir -p ~/.codex/skills/refhub-skill && curl -o ~/.codex/skills/refhub-skill/SKILL.md \
+  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/SKILL.md
+```
+
+**cursor · windsurf · others**
+```sh
+curl -O https://raw.githubusercontent.com/refhub-io/refhub-skill/main/AGENTS.md
+```
+
+---
+
+## // engineering stance
 
 we care about a few things quite a lot:
 
@@ -90,18 +124,21 @@ but the shape should support a credible v2 instead of painting us into a corner.
 
 ---
 
-## ⇢ current repo map
+## // repo map
 
-```text
+```
 refhub-io/
-├── refhub.io      # frontend product
-├── .netlify       # backend api / serverless functions
-└── refhub-skill   # skill/integration layer (emerging)
+├── refhub.io           # frontend product
+├── .netlify            # backend api / serverless functions
+├── refhub-cli          # cli client
+├── refhub-extensions   # browser extension
+├── refhub-skill        # skill / integration layer
+└── refhub-marketplace  # claude code plugin registry
 ```
 
 ---
 
-## ◇ near-term goals
+## // near-term goals
 
 <table>
 <tr>
@@ -137,7 +174,7 @@ refhub-io/
 
 ---
 
-## ✺ design sensibility
+## // design sensibility
 
 refhub is for researchers and builders who are comfortable with dense interfaces, keyboards, and actual structure.
 
@@ -152,12 +189,13 @@ if something feels vague, ornamental, or overexplained, it is probably wrong.
 
 ---
 
-## ☰ contributing
+## // contributing
 
 if you are contributing, keep the split clean:
 
 - frontend concerns belong in `refhub.io`
 - backend/api concerns belong in `.netlify`
+- extension concerns belong in `refhub-extensions`
 - integration abstractions should follow the real backend, not outrun it
 
 good contributions usually make one of these better:
@@ -169,29 +207,9 @@ good contributions usually make one of these better:
 
 ---
 
-## ↗ roadmap
-
-v2 planning now exists in both main repos:
-
-- frontend roadmap: `refhub.io/docs/V2_ROADMAP.md`
-- backend roadmap: `.netlify/docs/V2_ROADMAP.md`
-
-those documents outline the next serious layer:
-- expanded scopes and permissions
-- vault lifecycle
-- first-class tags and relations
-- search/filter/query surfaces
-- import/sync
-- audit/provenance
-- better agent/workflow support
-
----
-
 <div align="center">
 
-## principle
-
-**refhub should be pleasant for humans, legible for developers, and safe for agents.**
+// refhub should be pleasant for humans, legible for developers, and safe for agents.
 
 that is the bar.
 
