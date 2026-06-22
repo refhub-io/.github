@@ -8,6 +8,7 @@
 
 ![frontend](https://img.shields.io/badge/frontend-refhub.io-7c3aed?style=for-the-badge)
 ![backend](https://img.shields.io/badge/backend-.netlify-22c55e?style=for-the-badge)
+![cli](https://img.shields.io/badge/cli-refhub--cli-0ea5e9?style=for-the-badge)
 ![skill](https://img.shields.io/badge/skill-refhub--skill-ec4899?style=for-the-badge)
 ![status](https://img.shields.io/badge/status-building-06b6d4?style=for-the-badge)
 
@@ -15,55 +16,60 @@
 
 ---
 
-refhub is being built as a **reference manager + knowledge substrate** for serious research workflows. it is not just a prettier paper list. it is meant to support:
+refhub is a **modern reference management platform** for organizing academic publications, building citation networks, and sharing research collections.
 
-- organizing publications into vaults
-- tagging and structuring research collections
-- building relation graphs between papers and ideas
-- exporting and syncing cleanly
-- powering automation, agents, and future cli / mcp workflows
-
-our bias is toward **explicit structure, usable interfaces, and apis that are safe for automation**.
+it is built for the command-line generation: browser-first, keyboard-friendly, dark by default, structured enough for agents and scripts, and blunt about the difference between user workflows and automation workflows.
 
 ---
 
-## // what we are building
+## // current_state
 
-refhub is evolving into a small system, not a single repo.
+refhub is now a multi-repo system with a clear split between product, api, cli, extension, and agent integration work.
 
-### today
-- a frontend for working with vaults, publications, tags, and profiles
-- a backend/api layer for external integrations and api-key workflows
-- a browser extension for saving papers from any tab
-- agent skills and integration layer for claude code, gemini cli, opencode, codex, cursor, windsurf
+- `refhub.io` is the frontend product: vaults, papers, profiles, settings, help, and api-key management
+- `.netlify` is the backend/api layer: `/api/v1`, scoped keys, semantic scholar routes, pdf/item routes, import/export surfaces
+- `refhub-cli` and `refhub-skill` are the automation layer for humans, scripts, and agents
+- `refhub-extensions` handles browser capture
+- `refhub-marketplace` packages first-party claude code plugin distribution
 
-### direction
-we want refhub to become a solid foundation for:
-- personal research knowledge management
-- collaborative literature organization
-- programmable reference workflows
-- agentic ingestion / curation / export pipelines
-
-in plain english: **something you can use directly in the browser, but also plug into tools without regretting it later.**
+near-term work is focused on cleaner vault workflows, stronger permission semantics, better import/export/search, and safer agentic operations.
 
 ---
 
-## // organization shape
+## // what_we_are_building
 
-the org is split by responsibility, not by accident.
+refhub is not a prettier paper list. the target is a research memory system with explicit structure:
+
+- vault-based publication management
+- public and private research collections
+- tags, metadata, relations, profiles, and settings
+- pdf and google drive attachment workflows
+- versioned api access for trusted automation
+- cli, browser extension, and agent skill surfaces
+
+in plain english: **usable in the browser, programmable without regret.**
+
+---
+
+## // repo_map
 
 | repo | role | focus |
 |---|---|---|
-| `refhub-io/refhub.io` | frontend product | vault browsing, editing, profile/settings, api-key management ui, search, workflow ergonomics |
-| `refhub-io/.netlify` | backend api | versioned `/api/v1`, key auth, scoped access, import/export, backend hardening |
-| `refhub-io/refhub-extensions` | browser extension | save papers from any tab — chrome + firefox, mv3, shared source tree |
-| `refhub-io/refhub-skill` | integration layer | agent skill for the full v2 api surface — claude code, gemini cli, opencode, codex, cursor, windsurf |
-| `refhub-io/refhub-cli` | cli | command-line client for the refhub api — used by agents and humans alike |
-| `refhub-io/refhub-marketplace` | plugin registry | claude code marketplace for first-party refhub plugins |
+| [`refhub-io/refhub.io`](https://github.com/refhub-io/refhub.io) | frontend product | vaults, papers, profiles, settings, help, api-key ui |
+| [`refhub-io/.netlify`](https://github.com/refhub-io/.netlify) | backend api | `/api/v1`, scoped auth, semantic scholar, pdf/item routes, import/export |
+| [`refhub-io/refhub-cli`](https://github.com/refhub-io/refhub-cli) | cli | command-line workflows for humans, scripts, and agents |
+| [`refhub-io/refhub-extensions`](https://github.com/refhub-io/refhub-extensions) | browser extension | save papers from the browser, chrome/firefox, mv3 |
+| [`refhub-io/refhub-skill`](https://github.com/refhub-io/refhub-skill) | agent skill | first-party agent workflow instructions and api usage |
+| [`refhub-io/refhub-marketplace`](https://github.com/refhub-io/refhub-marketplace) | plugin registry | claude code marketplace for first-party refhub plugins |
+| [`refhub-io/refhub-mcp`](https://github.com/refhub-io/refhub-mcp) | mcp experiments | earlier mcp integration work |
+| [`refhub-io/refhub-style-guide`](https://github.com/refhub-io/refhub-style-guide) | internal style guide | identity, aesthetics, copy, and product conventions |
+| [`refhub-io/refhub-ascii`](https://github.com/refhub-io/refhub-ascii) | assets | ascii logo assets |
+| [`refhub-io/refhub-qr`](https://github.com/refhub-io/refhub-qr) | assets | qr/supporting assets |
+| [`refhub-io/.github`](https://github.com/refhub-io/.github) | org profile | this readme and github organization profile |
 
 ---
 
-## // agent support
+## // agent_support
 
 install the refhub skill once — works across tools.
 
@@ -95,122 +101,56 @@ curl -O https://raw.githubusercontent.com/refhub-io/refhub-skill/main/AGENTS.md
 
 ---
 
-## // engineering stance
+## // engineering_stance
 
-we care about a few things quite a lot:
-
-### 1. structure over vibes
+### structure_over_vibes
 if a concept matters, it should exist explicitly in the model and api.
-that means tags, relations, permissions, vault roles, and scopes should be real things — not hidden conventions.
 
-### 2. safe automation
-if agents or scripts touch data, the system should make that sane:
-- narrow api keys
-- explicit scopes
+tags, relations, permissions, vault roles, scopes, and item metadata should be real things — not hidden conventions.
+
+### safe_automation
+agents and scripts should get narrow, inspectable access:
+
+- scoped api keys
 - vault restrictions
-- honest error handling
+- honest errors
 - auditability
-- eventually dry-runs / safer bulk operations / sync surfaces
+- eventually dry-runs, safer bulk operations, and sync surfaces
 
-### 3. product clarity
-frontend and backend should not blur responsibilities.
-- normal user auth stays normal user auth
-- api keys are for automation/runtime access
-- settings should explain what a key can actually do
-
-### 4. incremental seriousness
-we are fine with v1 being small.
-but the shape should support a credible v2 instead of painting us into a corner.
+### clean_boundaries
+normal user auth is for people. api keys are for runtime automation. account setup and connected services stay in the web app.
 
 ---
 
-## // repo map
-
-```
-refhub-io/
-├── refhub.io           # frontend product
-├── .netlify            # backend api / serverless functions
-├── refhub-cli          # cli client
-├── refhub-extensions   # browser extension
-├── refhub-skill        # skill / integration layer
-└── refhub-marketplace  # claude code plugin registry
-```
-
----
-
-## // near-term goals
-
-<table>
-<tr>
-<td valign="top" width="33%">
-
-### backend
-- strengthen api key management
-- expand scope model cleanly
-- add vault lifecycle support
-- make tags / relations more first-class
-- improve search, import, export, and sync surfaces
-
-</td>
-<td valign="top" width="33%">
-
-### frontend
-- make api-key management understandable and safe
-- improve mobile responsiveness and settings ergonomics
-- expose permission shape clearly
-- support richer vault / tag / relation workflows
-
-</td>
-<td valign="top" width="33%">
-
-### platform direction
-- support agentic workflows without making the api sloppy
-- keep the contract explicit enough for skill / cli / mcp layers later
-- preserve a clean boundary between auth, data, and automation
-
-</td>
-</tr>
-</table>
-
----
-
-## // design sensibility
+## // design_sensibility
 
 refhub is for researchers and builders who are comfortable with dense interfaces, keyboards, and actual structure.
 
-the style is:
-- dark-first
-- technical
-- data-dense
+- dark by default
+- keyboard-first
+- monospace where data matters
+- `//` as the signature pattern
 - low on marketing glaze
 - closer to a good terminal tool than a lifestyle app
-
-if something feels vague, ornamental, or overexplained, it is probably wrong.
 
 ---
 
 ## // contributing
 
-if you are contributing, keep the split clean:
+keep the split clean:
 
 - frontend concerns belong in `refhub.io`
 - backend/api concerns belong in `.netlify`
+- cli ergonomics belong in `refhub-cli`
 - extension concerns belong in `refhub-extensions`
 - integration abstractions should follow the real backend, not outrun it
 
-good contributions usually make one of these better:
-- data structure
-- permission clarity
-- workflow efficiency
-- integration safety
-- research usability
+good contributions improve data structure, permission clarity, workflow efficiency, integration safety, or research usability.
 
 ---
 
 <div align="center">
 
-// refhub should be pleasant for humans, legible for developers, and safe for agents.
-
-that is the bar.
+// pleasant for humans • legible for developers • safe for agents
 
 </div>
