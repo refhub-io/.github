@@ -154,3 +154,15 @@ good contributions improve data structure, permission clarity, workflow efficien
 // pleasant for humans • legible for developers • safe for agents
 
 </div>
+
+
+<div align="center">
+    // this software is free as in freedom.
+</div>
+<div align="center">
+    •
+</div>
+<div align="center">
+    // licensed under GPLv3. read more at <a href=https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org</a>
+</div>
+
