@@ -30,7 +30,8 @@ refhub is now a multi-repo system with a clear split between product, api, cli, 
 - `.netlify` is the backend/api layer: `/api/v1`, scoped keys, semantic scholar routes, pdf/item routes, import/export surfaces
 - `refhub-cli` and `refhub-skill` are the automation layer for humans, scripts, and agents
 - `refhub-extensions` handles browser capture
-- `refhub-marketplace` packages first-party claude code plugin distribution
+- `refhub-paper-drafter` is a specialized agent skill built on top of `refhub-skill`/`refhub-cli`, for drafting HCI and visualization research papers from a vault
+- agent skills self-host their own Claude Code and Codex plugin marketplaces — no separate registry repo
 
 near-term work is focused on cleaner vault workflows, stronger permission semantics, better import/export/search, and safer agentic operations.
 
@@ -59,8 +60,8 @@ in plain english: **usable in the browser, programmable without regret.**
 | [`refhub-io/.netlify`](https://github.com/refhub-io/.netlify) | backend api | `/api/v1`, scoped auth, semantic scholar, pdf/item routes, import/export |
 | [`refhub-io/refhub-cli`](https://github.com/refhub-io/refhub-cli) | cli | command-line workflows for humans, scripts, and agents |
 | [`refhub-io/refhub-extensions`](https://github.com/refhub-io/refhub-extensions) | browser extension | save papers from the browser, chrome/firefox, mv3 |
-| [`refhub-io/refhub-skill`](https://github.com/refhub-io/refhub-skill) | agent skill | first-party agent workflow instructions and api usage |
-| [`refhub-io/refhub-marketplace`](https://github.com/refhub-io/refhub-marketplace) | plugin registry | claude code marketplace for first-party refhub plugins |
+| [`refhub-io/refhub-skill`](https://github.com/refhub-io/refhub-skill) | agent skill | operate the refhub api/cli — self-hosts its own claude code + codex plugin marketplaces |
+| [`refhub-io/refhub-paper-drafter`](https://github.com/refhub-io/refhub-paper-drafter) | agent skill | draft hci/visualization research papers from a vault; builds on `refhub-skill`, works standalone |
 | [`refhub-io/refhub-mcp`](https://github.com/refhub-io/refhub-mcp) | mcp experiments | earlier mcp integration work |
 | [`refhub-io/refhub-style-guide`](https://github.com/refhub-io/refhub-style-guide) | internal style guide | identity, aesthetics, copy, and product conventions |
 | [`refhub-io/refhub-ascii`](https://github.com/refhub-io/refhub-ascii) | assets | ascii logo assets |
@@ -71,33 +72,46 @@ in plain english: **usable in the browser, programmable without regret.**
 
 ## // agent_support
 
-install the refhub skill once — works across tools.
+each agent skill repo is self-contained — no shared registry. install `refhub-skill` for general vault/api operation, `refhub-paper-drafter` for the paper-drafting workflow (works standalone, or layered on top of `refhub-skill`).
 
 **claude code**
 ```sh
-claude plugin marketplace add refhub-io/refhub-marketplace
-claude plugin install refhub-skill@refhub-marketplace
+claude plugin marketplace add https://github.com/refhub-io/refhub-skill
+claude plugin install refhub-skill@refhub-skill
+
+claude plugin marketplace add https://github.com/refhub-io/refhub-paper-drafter
+claude plugin install refhub-paper-drafter@refhub-paper-drafter
 ```
 
-**gemini cli · opencode · codex cli**
+**codex**
+
+add to your Codex plugin marketplace configuration (`~/.agents/plugins/marketplace.json` or project-local):
+```json
+{
+  "name": "refhub-skill",
+  "source": { "source": "github", "repo": "refhub-io/refhub-skill" },
+  "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+  "category": "Productivity"
+}
+```
+each repo also ships its own `.agents/plugins/marketplace.json`, so cloning locally and pointing Codex at the clone works too — see each repo's README.
+
+**gemini cli · opencode**
 ```sh
 # gemini
 mkdir -p ~/.gemini/skills/refhub-skill && curl -o ~/.gemini/skills/refhub-skill/SKILL.md \
-  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/SKILL.md
+  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/skills/refhub-skill/SKILL.md
 
 # opencode
 mkdir -p ~/.config/opencode/skills/refhub-skill && curl -o ~/.config/opencode/skills/refhub-skill/SKILL.md \
-  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/SKILL.md
-
-# codex
-mkdir -p ~/.codex/skills/refhub-skill && curl -o ~/.codex/skills/refhub-skill/SKILL.md \
-  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/SKILL.md
+  https://raw.githubusercontent.com/refhub-io/refhub-skill/main/skills/refhub-skill/SKILL.md
 ```
 
-**cursor · windsurf · others**
+**cursor · windsurf · pi · other generic harnesses**
 ```sh
 curl -O https://raw.githubusercontent.com/refhub-io/refhub-skill/main/AGENTS.md
 ```
+each skill repo's `AGENTS.md` is a full standalone copy of its skill instructions — no plugin system required.
 
 ---
 
