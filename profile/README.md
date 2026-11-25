@@ -22,6 +22,18 @@ it is built for the command-line generation: browser-first, keyboard-friendly, d
 
 ---
 
+## // see_it_in_action
+
+<div align="center">
+
+[![refhub demo](https://refhub.io/promo/dark/wide-poster.jpg)](./assets/refhub-demo-dark-wide.mp4)
+
+// vaults, notes, tags, citation graphs, the inbox, smart collections, and the codex — in under 90 seconds. click to watch, right here on GitHub.
+
+</div>
+
+---
+
 ## // current_state
 
 refhub is now a multi-repo system with a clear split between product, api, cli, extension, and agent integration work.
