@@ -26,9 +26,9 @@ it is built for the command-line generation: browser-first, keyboard-friendly, d
 
 <div align="center">
 
-![refhub demo](https://refhub.io/promo/dark/wide-poster.jpg)
+[![refhub demo](https://refhub.io/promo/dark/wide-poster.jpg)](./assets/refhub-demo-dark-wide.mp4)
 
-// vaults, notes, tags, citation graphs, the inbox, smart collections, and the codex — in under 90 seconds. watch the full demo at refhub.io.
+// vaults, notes, tags, citation graphs, the inbox, smart collections, and the codex — in under 90 seconds. click to watch, right here on GitHub.
 
 </div>
 
