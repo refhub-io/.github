@@ -28,12 +28,13 @@ it is built for the command-line generation: browser-first, keyboard-friendly, d
 
 <img width="800" height="450" alt="refhub-demo-teaser" src="https://github.com/user-attachments/assets/032e57af-b0bf-47f2-ae08-be8beb80a292" />
 
-// vaults, notes, tags, citation graphs, the inbox, smart collections, and the codex — in under 90 seconds. watch the full demo at refhub.io.
+> // vaults, notes, tags, citation graphs, the inbox, smart collections, and the codex — in under 90 seconds. 
+
+> // watch the full demo at [refhub.io](https://refhub.io/about)
 
 </div>
 
 
-[watch it live](https://refhub.io/about)
 
 ---
 
